@@ -13,7 +13,8 @@
     "nodemon": "nodemon -L .",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
-    "test": "jest"
+    "test": "jest",
+    "tsc": "tsc"
   },
   "engines": {
     "node": "12.x"
@@ -61,7 +62,8 @@
   "devDependencies": {
     "eslint": "^6.0.1",
     "forever": "^3.0.2",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "typescript": "^4.0.3"
   },
   "bugs": {
     "url": "https://github.com/VenkSociety/Tsuyo/issues"
