@@ -29,15 +29,15 @@ const client = new Discord.Client({
 client.starttime = new Date();
 
 // Define databases/objects
-client.profiles = new Enmap({name: "profiles"});
-client.logins = new Enmap({name: "logins"});
-client.spotify = new Enmap({name: "spotify"});
-client.settings = new Enmap({name: "settings"});
-client.notes = new Enmap({name: "notes"});
-client.bugs = new Enmap({name: "bugreports"});
-client.starboard = new Enmap({name: "starboardmid"});
-client.warns = new Enmap({name: "warns"});
-client.tags = new Enmap({name: "tags"});
+client.profiles = new Enmap({ name: "profiles" });
+client.logins = new Enmap({ name: "logins" });
+client.spotify = new Enmap({ name: "spotify" });
+client.settings = new Enmap({ name: "settings" });
+client.notes = new Enmap({ name: "notes" });
+client.bugs = new Enmap({ name: "bugreports" });
+client.starboard = new Enmap({ name: "starboardmid" });
+client.warns = new Enmap({ name: "warns" });
+client.tags = new Enmap({ name: "tags" });
 client.points = new Enmap({ name: "points" });
 client.pingwords = new Enmap({ name: "pingwords" });
 client.inventory = new Enmap({ name: "inventory" });
