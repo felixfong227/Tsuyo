@@ -75,12 +75,6 @@ for (let i = 0; i < client.config.permLevels.length; i++) {
 	client.levelCache[currentlevel.name] = currentlevel.level;
 }
 
-process.env.SESSION_SECRET = "";
-for (let i = 0; i <= 1500; i++) {
-  process.env.SESSION_SECRET +=
-    Math.random().toString(16).slice(2, 8).toUpperCase().slice(-6) + i;
-}
-
 client.login(process.env.BOT_TOKEN);
 
 console.log("Logged into Discord API!");
