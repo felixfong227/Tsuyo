@@ -1,8 +1,6 @@
 // Copyright 2020 Cytrus-RE Developers
 // You may use the code, but please do credit us.
 
-"use strict";
-
 const fs = require("fs");
 const path = require("path");
 
