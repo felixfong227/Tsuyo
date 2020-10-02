@@ -1,9 +1,9 @@
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 module.exports = (client, member) => {
- 	const settings = client.getSettings(member.guild.id)
- 	if (settings.logMessageUpdates === 'true') {
+  const settings = client.getSettings(member.guild.id)
+  if (settings.logMessageUpdates === 'true') {
     if (settings.modLogChannel && member.guild.channels.cache.find(c => c.name == settings.modLogChannel)) {
       const modLogChannel = member.guild.channels.cache.find(c => c.name == settings.modLogChannel)
       if (!modLogChannel.permissionsFor(member.guild.me).has('VIEW_CHANNEL')) return

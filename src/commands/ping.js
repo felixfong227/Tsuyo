@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 exports.run = async (client, message, args, level) => {
   try {
@@ -16,11 +16,11 @@ exports.run = async (client, message, args, level) => {
         'https://cdn.discordapp.com/avatars/492871769485475840/6164d0068b8e76e497af9b0e1746f671.png?size=2048')
 
       .addField('Message Trip',
-      `${msg.createdTimestamp - message.createdTimestamp}ms`)
+        `${msg.createdTimestamp - message.createdTimestamp}ms`)
       .addField('WebSocket\nHeartbeat',
-      `${Math.floor(client.pings[0])}ms`, true)
+        `${Math.floor(client.pings[0])}ms`, true)
       .addField('Average WebSocket\nHeartbeat',
-      `${Math.floor(client.pings.average())}ms`, true)
+        `${Math.floor(client.pings.average())}ms`, true)
 
     msg.edit(embed)
   } catch (err) {

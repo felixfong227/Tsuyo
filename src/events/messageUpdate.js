@@ -1,21 +1,21 @@
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 module.exports = (client, message, messageNew) => {
-  if (message.author.bot) return
-  if (message.guild === null)
-  if (message.pinned && !messageNew.pinned) return
-  if (!message.pinned && messageNew.pinned) return
-  if (message.content === messageNew.content) return
+	if (message.author.bot) return
+	if (message.guild === null)
+		if (message.pinned && !messageNew.pinned) return
+	if (!message.pinned && messageNew.pinned) return
+	if (message.content === messageNew.content) return
 
-  const settings = client.getSettings(message.guild.id)
+	const settings = client.getSettings(message.guild.id)
 
-  if (settings.logMessageUpdates == 'true') {
+	if (settings.logMessageUpdates == 'true') {
 		if (settings.modLogChannel && message.guild.channels.find(c => c.name == settings.modLogChannel)) {
-				const modLogChannel = message.guild.channels.find(c => c.name == settings.modLogChannel)
-				if (!modLogChannel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
-				if (!modLogChannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
-				
+			const modLogChannel = message.guild.channels.find(c => c.name == settings.modLogChannel)
+			if (!modLogChannel.permissionsFor(message.guild.me).has('VIEW_CHANNEL')) return
+			if (!modLogChannel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) return
+
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('📝 Message updated')
 				.setColor(colors.default)
@@ -28,5 +28,5 @@ module.exports = (client, message, messageNew) => {
 				message.guild.channels.find(channel => channel.name == settings.modLogChannel).send(embed).catch()
 			}
 		}
-  }
+	}
 }

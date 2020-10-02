@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const colors = require("../lib/colors.json");
+import { colors } from '@lib/colors';
 const moment = require("moment");
 const version = require("discord.js");
 const ip = require("ip"); // We're only using this to get the IP of the dashboard, only bot developers can see the IP

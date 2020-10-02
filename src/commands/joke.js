@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const joke = require('one-liner-joke').getRandomJoke
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
   try {

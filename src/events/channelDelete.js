@@ -1,9 +1,9 @@
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 module.exports = (client, channel) => {
-  	const settings = client.getSettings(channel.guild.id)
-  	if (settings.logChannelUpdates == 'true') {
+  const settings = client.getSettings(channel.guild.id)
+  if (settings.logChannelUpdates == 'true') {
     if (settings.modLogChannel && channel.guild.channels.find(c => c.name == settings.modLogChannel)) {
       const modLogChannel = channel.guild.channels.find(c => c.name == settings.modLogChannel)
       if (!modLogChannel.permissionsFor(channel.guild.me).has('VIEW_CHANNEL')) return
@@ -17,5 +17,5 @@ module.exports = (client, channel) => {
 
       modLogChannel.send(embed)
     }
-  	}
+  }
 }

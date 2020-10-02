@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const request = require('request')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 exports.run = async (client, message, args, level) => {
   request('http://aws.random.cat/meow', function (error, body) {

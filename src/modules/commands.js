@@ -1,6 +1,7 @@
 // Import modules
 const fs = require("fs");
 const util = require("util");
+import logger from '@modules/logger';
 
 // Define variables
 const promisify = util.promisify;
@@ -12,7 +13,7 @@ module.exports = (client) => {
 
   readdir(__dirname + "/../commands/", (err, files) => {
     // If there is an error, return the error
-    if (err) return client.logger.error(err);
+    if (err) return logger.error(err);
 
     // For each file in the file array run this function
     files.forEach((file) => {
@@ -26,7 +27,7 @@ module.exports = (client) => {
       let commandName = file.split(".")[0];
 
       // Log that the command is loading
-      client.logger.log(`Loading command: ${commandName}. Command ${i}`);
+      logger.log(`Loading command: ${commandName}. Command ${i}`);
 
       // Set the command name and the file objects
       client.commands.set(commandName, props);

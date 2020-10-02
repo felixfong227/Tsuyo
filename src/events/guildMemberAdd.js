@@ -1,13 +1,13 @@
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 module.exports = (client, member) => {
- 	const settings = client.getSettings(member.guild.id)
- 	if (settings.welcomeEnabled !== 'true') return
+  const settings = client.getSettings(member.guild.id)
+  if (settings.welcomeEnabled !== 'true') return
 
   const welcomeChannel = member.guild.channels.cache.find(c => c.name == settings.welcomeChannel)
 
- 	if (settings.welcomeMessage && welcomeChannel) {
+  if (settings.welcomeMessage && welcomeChannel) {
     if (!welcomeChannel.permissionsFor(member.guild.me).has('VIEW_CHANNEL')) return
     if (!welcomeChannel.permissionsFor(member.guild.me).has('SEND_MESSAGES')) return
 
@@ -59,6 +59,6 @@ module.exports = (client, member) => {
         .setTimestamp()
 
       modLogChannel.send(embed)
- 		}
+    }
   }
 }

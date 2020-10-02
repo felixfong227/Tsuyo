@@ -1,14 +1,14 @@
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 exports.run = async (client, message, args, level) => {
-  const yesEmoji = '✅'
-  const noEmoji = message.client.emojis.cache.get('637573919204966410')
-  const settings = client.getSettings(message.guild.id)
+	const yesEmoji = '✅'
+	const noEmoji = message.client.emojis.cache.get('637573919204966410')
+	const settings = client.getSettings(message.guild.id)
 
-  if (args.length === 0) {
-    return message.channel.send(`You need to specify either add, accept or deny.`)
-  }
+	if (args.length === 0) {
+		return message.channel.send(`You need to specify either add, accept or deny.`)
+	}
 
 	if (args[0] === "add") {
 		if (message.member.roles.cache.some(r => r.name === settings.modRole) || message.member.roles.cache.some(r => r.name === settings.adminRole)) {
@@ -96,15 +96,15 @@ exports.run = async (client, message, args, level) => {
 }
 
 exports.conf = {
-  enabled: true,
-  aliases: ['sg'],
-  guildOnly: true,
-  permLevel: 'User'
+	enabled: true,
+	aliases: ['sg'],
+	guildOnly: true,
+	permLevel: 'User'
 }
 
 exports.help = {
-  name: 'suggestions',
-  category: 'Moderation',
-  description: 'Suggestions system.',
-  usage: 'suggestions <add/accept/deny>'
+	name: 'suggestions',
+	category: 'Moderation',
+	description: 'Suggestions system.',
+	usage: 'suggestions <add/accept/deny>'
 }

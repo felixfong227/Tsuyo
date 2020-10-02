@@ -1,6 +1,6 @@
 const request = require('request')
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 exports.run = async (client, message, args, level) => {
   if (message.channel.nsfw === false) return message.channel.send('You need to be in an NSFW channel to use this command.')

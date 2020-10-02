@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 const moment = require('moment')
 const version = require('discord.js')
 require('moment-duration-format')

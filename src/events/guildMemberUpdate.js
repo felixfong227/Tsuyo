@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 module.exports = (client, oldMember, newMember) => {
   let embed
@@ -22,10 +22,10 @@ module.exports = (client, oldMember, newMember) => {
       .setThumbnail(`${oldMember.user.displayAvatarURL}`)
       .setTimestamp()
 
-      modLogChannel.send(embed).catch()
-  	}
+    modLogChannel.send(embed).catch()
+  }
 
-  	if (oldMember.user.name !== newMember.user.name) {
+  if (oldMember.user.name !== newMember.user.name) {
     const embed = new Discord.MessageEmbed()
       .setAuthor('👤 Username changed')
       .setColor(colors.default)
@@ -35,32 +35,32 @@ module.exports = (client, oldMember, newMember) => {
       .setThumbnail(`${oldMember.user.displayAvatarURL}`)
       .setTimestamp()
 
-      modLogChannel.send(embed).catch()
-  	}
+    modLogChannel.send(embed).catch()
+  }
 
-  	if (oldMember.roles !== newMember.roles) {
-    	let output = ''
-    	let outputNew = ''
+  if (oldMember.roles !== newMember.roles) {
+    let output = ''
+    let outputNew = ''
 
-    	oldMember.roles.cache.forEach(role => {
-      	output += '\n' + role.name
-    	})
+    oldMember.roles.cache.forEach(role => {
+      output += '\n' + role.name
+    })
 
-    	newMember.roles.cache.forEach(role => {
-      	outputNew += '\n' + role.name
-    	})
+    newMember.roles.cache.forEach(role => {
+      outputNew += '\n' + role.name
+    })
 
-    	if (output == outputNew) return
+    if (output == outputNew) return
 
-    	embed = new Discord.MessageEmbed()
+    embed = new Discord.MessageEmbed()
       .setAuthor('👤 Member roles updated')
-    	.setColor(colors.default)
-    	.setDescription(`\Roles updated for <@${newMember.id}>`)
+      .setColor(colors.default)
+      .setDescription(`\Roles updated for <@${newMember.id}>`)
       .addField('Old roles:', `${output}`, true)
       .addField('New roles:', `឵${outputNew}`, true)
       .setThumbnail(`${oldMember.user.displayAvatarURL}`)
-    	.setTimestamp()
+      .setTimestamp()
 
-    	modLogChannel.send(embed).catch()
-  	}
+    modLogChannel.send(embed).catch()
+  }
 }
