@@ -1,7 +1,8 @@
-const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
-exports.run = async (client, message, args, level) => {
-  const prefix = message.guild === null ? ';;' : client.getSettings(message.guild.id).prefix
+import Discord from 'discord.js';
+import { colors } from '@lib/colors';
+import DiscordClient from '@class/DiscordClient';
+exports.run = async (client: DiscordClient, message: Discord.Message, args: any, level: any) => {
+  const prefix = message.guild === null ? ';;' : client.getSettings(message.guild.id).prefix;
   const results = ['Yes.', 'No.', 'Maybe.']
   const result = results[Math.floor(Math.random() * results.length)]
   const input = args.join(' ')
@@ -20,6 +21,7 @@ exports.run = async (client, message, args, level) => {
         const result = member[Math.floor(Math.random() * member.length)]
         message.channel.send(`${result}`)
       }
+      // @ts-ignore
       var member = message.guild.members.random().displayName
       message.channel.send(`${member}.`)
     } else {

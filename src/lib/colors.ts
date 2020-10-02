@@ -1,10 +1,10 @@
-{
+export const colors = {
     "green": "#43B17E",
     "red": "#F74847",
     "blue": "#3498DB",
     "navy": "#327EB8",
-	  "teal": "#4699AA",
-	  "purple": "#995BBD",
-	  "pink": "#F784D9",
+    "teal": "#4699AA",
+    "purple": "#995BBD",
+    "pink": "#F784D9",
     "default": "#995BBD"
 }

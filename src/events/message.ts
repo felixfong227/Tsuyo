@@ -1,9 +1,10 @@
-const Discord = require("discord.js");
-const colors = require('../lib/colors.json');
-const fs = require('fs');
+import Discord from 'discord.js';
+import { colors } from '@lib/colors';
 const cooled = new Discord.Collection();
+import DiscordClient from '@class/DiscordClient';
+import logger from '@modules/logger';
 
-module.exports = async (client, message) => {
+module.exports = async (client: DiscordClient, message: Discord.Message) => {
   if (message.author.bot) return;
   if (client.config.blacklisted.includes(message.author.id)) return;
 
@@ -13,7 +14,7 @@ module.exports = async (client, message) => {
   else settings = client.config.defaultSettings;
 
   // checks if message mentions the bot, if so responds with prefix
-  const prefixMention = new RegExp(`^<@!?${client.user.id}>( |)$`);
+  const prefixMention = new RegExp(`^<@!?${client?.user?.id}>( |)$`);
   if (message.content.match(prefixMention)) {
     const embed = new Discord.MessageEmbed()
       .setTitle('Help')
@@ -23,12 +24,13 @@ module.exports = async (client, message) => {
       .addField('Want to invite me to your Discord?', '[Click here to invite me to your server.](https://discordapp.com/oauth2/authorize?client_id=492871769485475840&scope=bot&permissions=1506142455)')
       .addField('Need more assistance?', '[Click here to join the official Tsuyo support server](https://discord.gg/3hbeQgY)')
 
-      if (message.guild !== null) {
-        if (!message.channel.permissionsFor(client.user).has('SEND_MESSAGES')) return
-        return message.channel.send(embed)
-      }
-
+    if (message.guild !== null) {
+      // @ts-ignore
+      if (!message.channel.permissionsFor(client.user).has('SEND_MESSAGES')) return
       return message.channel.send(embed)
+    }
+
+    return message.channel.send(embed)
   }
 
   if (message.guild) {
@@ -46,6 +48,7 @@ module.exports = async (client, message) => {
 
     if (client.tags.has(message.guild.id)) {
       Object.keys(client.tags.get(message.guild.id)).forEach(tagid => {
+        // @ts-ignore
         let tag = client.tags.get(message.guild.id)[tagid];
 
         if (message.content.toLowerCase() == tag.name.toLowerCase()) message.channel.send(tag.text.replace("@user", "<@" + message.author.id + ">"));
@@ -56,11 +59,16 @@ module.exports = async (client, message) => {
   if (!message.content.toLowerCase().startsWith(settings.prefix.toLowerCase() || client.config.defaultSettings.prefix.toLowerCase())) return;
 
   let args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
+  if (!args) {
+    throw new Error('Args is either empty or undefined');
+    return;
+  }
+  // @ts-ignore
   let command = args.shift().toLowerCase();
 
   let level = client.permlevel(message);
 
-  let cmd = client.commands.get(command) || client.aliases.get(command);
+  let cmd: any = client.commands.get(command) || client.aliases.get(command);
 
   if (!client.commands.has(command) && !client.aliases.has(command)) return;
 
@@ -74,18 +82,22 @@ module.exports = async (client, message) => {
   }
 
   if (!message.guild && cmd.conf.guildOnly) return message.channel.send("You need to be in a guild to use this command.");
+  // @ts-ignore
   if (message.guild && !message.channel.nsfw && cmd.conf.nsfwOnly) return message.channel.send(client.errors.nsfwOnly);
 
   if (level < client.levelCache[cmd.conf.permLevel]) {
     if (settings.noPermissionNotice) return message.channel.send(`You can't use this command!
-Your permission level is ${level} (${client.config.permLevels.find(l => l.level === level).name}), but this command requires level ${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})!`);
+Your permission level is ${level} (${client.config.permLevels.find((l: any) => l.level === level).name}), but this command requires level ${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})!`);
     else return;
   }
 
+  // @ts-ignore
   message.author.permLevel = level;
 
+  // @ts-ignore
   message.flags = [];
   while (args[0] && args[0][0] === "-") {
+    // @ts-ignore
     message.flags.push(args.shift().slice(1));
   }
 
