@@ -27,7 +27,7 @@ Once NodeJS is installed, install the npm dependencies in the windows command pr
 
 Now that the hard part is over, installation is a simple as a couple of clicks *(and patience depending on your internet speed)*. Simply fork or download the repository and then execute this in the windows command prompt.
 - ```cd [folder where bot.js is]```
-- ```node bot```
+- ```npm start```
 
 ### Setting up the bot:
 By default, the only thing you will need to edit in **_.env_** is the bot's token. If you're not sure on how to get a bot token, you can follow [this tutorial](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) made by our friends over at [Reactiflux](https://www.reactiflux.com/).
