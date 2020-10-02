@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const rhyme = require('rhyme')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
   if (!args[0]) return message.channel.send('You need to input the word to rhyme!')
@@ -14,14 +14,14 @@ exports.run = async (client, message, args, level) => { // eslint-disable-line n
   )
 
   rhyme(async (rl) => {
-    	let rhymes = ''
-      	const words = rl.rhyme(args.join(' '))
+    let rhymes = ''
+    const words = rl.rhyme(args.join(' '))
 
-      	words.forEach(word => {
-        	rhymes += word.toProperCase() + ', '
-      	})
+    words.forEach(word => {
+      rhymes += word.toProperCase() + ', '
+    })
 
-      	rhymes = rhymes.slice(0, -2)
+    rhymes = rhymes.slice(0, -2)
 
     const embed = new Discord.MessageEmbed()
       .setTitle(`${args[0]}`)

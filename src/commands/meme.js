@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const randomPuppy = require('random-puppy')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 exports.run = async (client, message, args, level) => {
   const subReddits = ['dankmeme', 'meme', 'memes', 'spicy_memes', 'me_irl']

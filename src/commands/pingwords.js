@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 
 exports.run = async (client, message, args) => {
   if (message.author.bot === true) return
@@ -28,10 +28,10 @@ exports.run = async (client, message, args) => {
       if (args[2] > 3) return message.channel.send('You can only have 3 ping words.')
 
       client.pingwords.set(`${message.author.id}`, args[1].toLowerCase(), slot)
-			const embed = new Discord.MessageEmbed()
-				.setAuthor('Ping Words')
-				.setColor(colors.green)
-				.setDescription(`Set your pingword in slot \`${args[2]}\` to \`${args[1].toLowerCase()}\`.`)
+      const embed = new Discord.MessageEmbed()
+        .setAuthor('Ping Words')
+        .setColor(colors.green)
+        .setDescription(`Set your pingword in slot \`${args[2]}\` to \`${args[1].toLowerCase()}\`.`)
       return message.channel.send(embed)
     }
 
@@ -43,48 +43,48 @@ exports.run = async (client, message, args) => {
     if (args[1] === '1') {
       if (pingOne === null) return message.channel.send('You do not have a pingword in this slot.')
       client.pingwords.set(`${message.author.id}`, null, 'pingOne')
-			const embed = new Discord.MessageEmbed()
-				.setAuthor('Ping Words')
-				.setColor(colors.green)
-				.setDescription(`Set your pingword in slot \`${args[1]}\` to \`null\`.`)
+      const embed = new Discord.MessageEmbed()
+        .setAuthor('Ping Words')
+        .setColor(colors.green)
+        .setDescription(`Set your pingword in slot \`${args[1]}\` to \`null\`.`)
       return message.channel.send(embed)
     }
 
     if (args[1] === '2') {
       if (pingTwo === null) return message.channel.send('You do not have a pingword in this slot.')
       client.pingwords.set(`${message.author.id}`, null, 'pingTwo')
-			const embed = new Discord.MessageEmbed()
-				.setAuthor('Ping Words')
-				.setColor(colors.green)
-				.setDescription(`Set your pingword in slot \`${args[1]}\` to \`null\`.`)
+      const embed = new Discord.MessageEmbed()
+        .setAuthor('Ping Words')
+        .setColor(colors.green)
+        .setDescription(`Set your pingword in slot \`${args[1]}\` to \`null\`.`)
       return message.channel.send(embed)
     }
 
     if (args[1] === '3') {
       if (pingThree === null) return message.channel.send('You do not have a pingword in this slot.')
       client.pingwords.set(`${message.author.id}`, null, 'pingThree')
-			const embed = new Discord.MessageEmbed()
-				.setAuthor('Ping Words')
-				.setColor(colors.green)
-				.setDescription(`Set your pingword in slot \`${args[1]}\` to \`null\`.`)
+      const embed = new Discord.MessageEmbed()
+        .setAuthor('Ping Words')
+        .setColor(colors.green)
+        .setDescription(`Set your pingword in slot \`${args[1]}\` to \`null\`.`)
       return message.channel.send(embed)
     }
 
-		return message.channel.send('You can only have 3 ping words.')
+    return message.channel.send('You can only have 3 ping words.')
 
   }
 
   if (args[0] === 'list') {
-		const embed = new Discord.MessageEmbed()
-			.setAuthor('Ping Words')
-			.setColor(colors.default)
-			.addField('Slot 1:', pingOne, true)
-			.addField('Slot 2:', pingTwo, true)
-			.addField('Slot 3:', pingThree, true)
+    const embed = new Discord.MessageEmbed()
+      .setAuthor('Ping Words')
+      .setColor(colors.default)
+      .addField('Slot 1:', pingOne, true)
+      .addField('Slot 2:', pingTwo, true)
+      .addField('Slot 3:', pingThree, true)
     return message.channel.send(embed)
   }
 
-	message.channel.send('Invalid argument. Argument can either be add, del or list.')
+  message.channel.send('Invalid argument. Argument can either be add, del or list.')
 }
 
 exports.conf = {

@@ -1,6 +1,6 @@
 const fs = require("fs");
 const Discord = require("discord.js");
-const colors = require("../lib/colors.json");
+import { colors } from '@lib/colors';
 
 module.exports = (client, message) => {
   if (message.guild === null) return;
@@ -15,13 +15,13 @@ module.exports = (client, message) => {
       level: 1
     })
 
-      client.points.inc(key, 'points')
+    client.points.inc(key, 'points')
 
-      const curLevel = Math.floor(0.5 * Math.sqrt(client.points.get(key, 'points')))
+    const curLevel = Math.floor(0.5 * Math.sqrt(client.points.get(key, 'points')))
 
-      if (client.points.get(key, 'level') < curLevel) {
-        message.reply(`You've leveled up to level **${curLevel}**! Ain't that dandy?`)
-        client.points.set(key, curLevel, 'level')
-      }
+    if (client.points.get(key, 'level') < curLevel) {
+      message.reply(`You've leveled up to level **${curLevel}**! Ain't that dandy?`)
+      client.points.set(key, curLevel, 'level')
     }
+  }
 };

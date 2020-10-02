@@ -1,4 +1,4 @@
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 const Discord = require('discord.js')
 
 exports.run = (client, message, args, level) => {

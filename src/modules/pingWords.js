@@ -1,13 +1,13 @@
 /*
-	TODO:
-		- Switch to a whitelist instead of all servers.
-		- Allow blacklisted strings. E.g: don't get pinged by "Venk:" but get pinged by "Venk".
-		- Blacklist people from being allowed to ping you
+  TODO:
+    - Switch to a whitelist instead of all servers.
+    - Allow blacklisted strings. E.g: don't get pinged by "Venk:" but get pinged by "Venk".
+    - Blacklist people from being allowed to ping you
 */
 
 const fs = require("fs");
 const Discord = require("discord.js");
-const colors = require("../lib/colors.json");
+import { colors } from '@lib/colors';
 
 module.exports = (client, message) => {
   if (message.guild === null) return;
@@ -38,7 +38,7 @@ module.exports = (client, message) => {
       const guild = client.guilds.cache.get(message.guild.id);
       if (message.content.includes("null")) return; // DO NOT SEND MESSAGE TO EVERY USER
       if (!guild.member(user.id)) return; // If member is not in the guild, why ping them?
-      user.send(pingEmbed).catch((e) => {});
+      user.send(pingEmbed).catch((e) => { });
     }
   });
 };

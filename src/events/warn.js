@@ -1,4 +1,5 @@
+import logger from '@modules/logger';
 module.exports = async (client, warn) => {
   if (JSON.stringify(warn).toLowerCase().includes("discordapierror")) return;
-  client.logger.log(warn, "warn");
+  logger.log(warn, "warn");
 };

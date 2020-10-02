@@ -1,4 +1,4 @@
-const colors = require('../lib/colors.json')
+import { colors } from '@lib/colors';
 const Discord = require('discord.js')
 
 exports.run = (client, message, args, level) => {
@@ -19,9 +19,9 @@ exports.run = (client, message, args, level) => {
       })
 
       const embed = new Discord.MessageEmbed()
-	  .setTitle('Commands')
-	  .setColor(colors.default)
-	  .addField(`Type ${prefix}commands <category> to view all commands in that category`, 'Valid categories:\n`admin`, `economy`, `fun`, `moderation`, `utility`')
+        .setTitle('Commands')
+        .setColor(colors.default)
+        .addField(`Type ${prefix}commands <category> to view all commands in that category`, 'Valid categories:\n`admin`, `economy`, `fun`, `moderation`, `utility`')
 
       message.channel.send(embed)
     } else {
@@ -30,11 +30,11 @@ exports.run = (client, message, args, level) => {
         command = client.commands.get(command) || client.aliases.get(command)
 
         const embedTiny = new Discord.MessageEmbed()
-	      .setTitle(`Help - ${prefix}${command.help.name}`)
-	      .setColor(colors.default)
+          .setTitle(`Help - ${prefix}${command.help.name}`)
+          .setColor(colors.default)
           .setThumbnail(client.user.avatarURL)
           .setDescription(`${command.help.description}\n\n**Usage:** ${command.help.usage}\n**Aliases:** ${command.conf.aliases.join(' | ') || 'none'}`)
-	      .addField('Permission level', `${client.levelCache[command.conf.permLevel]} - ${command.conf.permLevel}`, true)
+          .addField('Permission level', `${client.levelCache[command.conf.permLevel]} - ${command.conf.permLevel}`, true)
           .addField('Category', command.help.category, true)
           .addField('Guild only', command.conf.guildOnly ? 'Yes' : 'No', true)
 
@@ -53,9 +53,9 @@ exports.run = (client, message, args, level) => {
         })
 
         if (!output) return message.reply('That\'s not a valid category!')
-		 const embed = new Discord.MessageEmbed()
-	      .setTitle('Commands')
-	      .setColor(colors.default)
+        const embed = new Discord.MessageEmbed()
+          .setTitle('Commands')
+          .setColor(colors.default)
           .setThumbnail(client.user.avatarURL)
           .setDescription(output)
 

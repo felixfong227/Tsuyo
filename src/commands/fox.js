@@ -1,7 +1,7 @@
 // WIP until Discord allows spoilers in embeds
 const Discord = require('discord.js');
 const request = require('request');
-const colors = require('../lib/colors.json');
+import { colors } from '@lib/colors';
 const { parse } = require('node-html-parser');
 const redis = require('redis');
 
