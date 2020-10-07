@@ -1,9 +1,11 @@
 import Discord from 'discord.js';
 import Enmap from 'enmap';
+import BotConfig from '@bot_config';
 
 class DiscordClient extends Discord.Client {
     // Define time of startup
     starttime = new Date();
+    startuptime: number = 0;
 
     // Define databases/objects
     profiles = new Enmap({ name: "profiles" });
@@ -35,20 +37,13 @@ class DiscordClient extends Discord.Client {
     music = {};
     levelCache: any = {};
 
-    // Import files
-    // TODO: Deprecated methods
-    logger = require('@modules/logger')
-    config = require('@src/config');
-    errors = require('@modules/errors');
-
-
     // Custom functions
 
     permlevel = (message: Discord.Message) => {
         let permlvl = 0;
 
         // Sorts the permission levels
-        const permOrder = this.config.permLevels.slice(0).sort((p: any, c: any) => p.level < c.level ? 1 : -1);
+        const permOrder = BotConfig.permLevels.slice(0).sort((p: any, c: any) => p.level < c.level ? 1 : -1);
 
         while (permOrder.length) {
             // Make the current level the first level in the array
@@ -65,7 +60,7 @@ class DiscordClient extends Discord.Client {
     };
 
     getSettings = (guild: string | number) => {
-        const defaults = this.config.defaultSettings || {};
+        const defaults = BotConfig.defaultSettings || {};
         if (!guild) return defaults;
         const guildData = this.settings.get(guild) || {};
         const returnObject: any = {};

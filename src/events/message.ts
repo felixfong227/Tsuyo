@@ -2,16 +2,17 @@ import Discord from 'discord.js';
 import { colors } from '@lib/colors';
 const cooled = new Discord.Collection();
 import DiscordClient from '@class/DiscordClient';
-import logger from '@modules/logger';
+import BotConifg from '@bot_config';
+import ErrorMoudle from '@modules/errors';
 
 module.exports = async (client: DiscordClient, message: Discord.Message) => {
   if (message.author.bot) return;
-  if (client.config.blacklisted.includes(message.author.id)) return;
+  if (BotConifg.blacklisted.includes(message.author.id)) return;
 
   let settings;
 
   if (message.guild) settings = client.getSettings(message.guild.id);
-  else settings = client.config.defaultSettings;
+  else settings = BotConifg.defaultSettings;
 
   // checks if message mentions the bot, if so responds with prefix
   const prefixMention = new RegExp(`^<@!?${client?.user?.id}>( |)$`);
@@ -56,7 +57,7 @@ module.exports = async (client: DiscordClient, message: Discord.Message) => {
     }
   }
 
-  if (!message.content.toLowerCase().startsWith(settings.prefix.toLowerCase() || client.config.defaultSettings.prefix.toLowerCase())) return;
+  if (!message.content.toLowerCase().startsWith(settings.prefix.toLowerCase() || BotConifg.defaultSettings.prefix.toLowerCase())) return;
 
   let args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
   if (!args) {
@@ -83,11 +84,11 @@ module.exports = async (client: DiscordClient, message: Discord.Message) => {
 
   if (!message.guild && cmd.conf.guildOnly) return message.channel.send("You need to be in a guild to use this command.");
   // @ts-ignore
-  if (message.guild && !message.channel.nsfw && cmd.conf.nsfwOnly) return message.channel.send(client.errors.nsfwOnly);
+  if (message.guild && !message.channel.nsfw && cmd.conf.nsfwOnly) return message.channel.send(ErrorMoudle.nsfwOnly);
 
   if (level < client.levelCache[cmd.conf.permLevel]) {
     if (settings.noPermissionNotice) return message.channel.send(`You can't use this command!
-Your permission level is ${level} (${client.config.permLevels.find((l: any) => l.level === level).name}), but this command requires level ${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})!`);
+Your permission level is ${level} (${BotConifg.permLevels.find((l: any) => l.level === level).name}), but this command requires level ${client.levelCache[cmd.conf.permLevel]} (${cmd.conf.permLevel})!`);
     else return;
   }
 
@@ -108,6 +109,6 @@ Your permission level is ${level} (${client.config.permLevels.find((l: any) => l
     client.uses.ensure(cmd.help.name, 1);
     client.uses.inc(cmd.help.name); // for metrics
   } catch (err) {
-    message.channel.send(client.errors.genericError + err).catch();
+    message.channel.send(ErrorMoudle.genericError + err).catch();
   }
 };
