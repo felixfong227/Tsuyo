@@ -5,3 +5,4 @@ data
 json.sqlite
 config.js
 /target
+.clinic/
