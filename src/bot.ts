@@ -2,10 +2,12 @@
 // You may use the code, but please do credit us.
 // import 'module-alias/register';
 
+import DiscordClientClass from '@class/DiscordClient';
+import BotConfig from '@bot_config';
+
 require('module-alias/register')
 const fs = require("fs");
 const path = require("path");
-import DiscordClientClass from '@class/DiscordClient';
 
 // Check if the Node version is 14+
 if (Number(process.version.slice(1).split(".")[0]) < 12) throw new Error("Tsuyo requires Node 12 or higher. Re-run the bot with Node 12 or higher.");
@@ -30,8 +32,8 @@ require("./modules/events")(client); // Import events module
 require("./modules/_functions")(client); // Import functions
 
 // Cache the permissions
-for (let i = 0; i < client.config.permLevels.length; i++) {
-	let currentlevel = client.config.permLevels[i];
+for (let i = 0; i < BotConfig.permLevels.length; i++) {
+	let currentlevel = BotConfig.permLevels[i];
 	client.levelCache[currentlevel.name] = currentlevel.level;
 }
 
