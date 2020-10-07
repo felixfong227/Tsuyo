@@ -21,6 +21,9 @@
       ],
       "@src/*": [
         "./src/*"
+      ],
+      "@bot_config": [
+        "./src/config.js"
       ]
     },
     "esModuleInterop": true,
