@@ -5,8 +5,6 @@ const bodyParser = require("body-parser");
 const colors = require("colors");
 const ip = require("ip"); // We're only using this to get the IP of the dashboard, only bot developers can see the IP
 const cors = require('cors');
-const { cookie } = require('request');
-const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo')(session);
 
 const app = express();
