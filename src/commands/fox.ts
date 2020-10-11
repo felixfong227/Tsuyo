@@ -1,18 +1,17 @@
-// WIP until Discord allows spoilers in embeds
-const Discord = require('discord.js');
 const request = require('request');
 import { colors } from '@lib/colors';
-const { parse } = require('node-html-parser');
-const redis = require('redis');
+import { parse } from 'node-html-parser';
+import redis, { ParserError } from 'redis';
+import Discord from 'discord.js';
+import DiscordClient from '@class/DiscordClient';
 
 let usingRedsi = true;
 
 const redisImageCollections = redis.createClient({
-    host: 'redis',
-    DB: 0
+    host: 'localhost',
 });
 
-function redisErrorHandler(err) {
+function redisErrorHandler(err: Error) {
     if (err.message.includes('Redis connection to redis:6379 failed')) {
         usingRedsi = false;
         return redisImageCollections.quit();
@@ -26,9 +25,9 @@ const ENDPOINT = 'http://fox-info.net';
 const URL = `${ENDPOINT}/fox-gallery`;
 const COLLECTION = 'collection';
 
-function locateAllGalleryBlock(DOM) {
+function locateAllGalleryBlock(DOM: any) {
     const allImage = DOM.querySelectorAll('.gallery-item img');
-    const allGalleryImage = allImage.map(galleryBlock => {
+    const allGalleryImage = allImage.map((galleryBlock: any) => {
         return {
             ID: Math.random().toString(36),
             src: galleryBlock.getAttribute('src'),
@@ -37,8 +36,8 @@ function locateAllGalleryBlock(DOM) {
     return allGalleryImage;
 }
 
-function getDOM(cb) {
-    request(URL, (err, body) => {
+function getDOM(cb: Function) {
+    request(URL, (err: Error, body: any) => {
         // Randomly pick one <img /> as the source image URL
         if (err) {
             console.log(`Fail to complete a HTTP request to ${URL}`);
@@ -56,7 +55,7 @@ function getDOM(cb) {
 
 function repopulateGalleryCollection() {
     return new Promise((resolve, reject) => {
-        getDOM((err, DOM) => {
+        getDOM((err: Error, DOM: any) => {
             if (err) return reject(err);
             const galleryCollection = locateAllGalleryBlock(DOM);
             if (!usingRedsi) {
@@ -68,7 +67,7 @@ function repopulateGalleryCollection() {
     });
 }
 
-function sendFoxImageToChat(imageURL, message) {
+function sendFoxImageToChat(imageURL: string, message: Discord.Message) {
     if (imageURL && message) {
         const embed = new Discord.MessageEmbed()
             .setColor(colors.default)
@@ -80,13 +79,13 @@ function sendFoxImageToChat(imageURL, message) {
     }
 }
 
-function pickRandomGallery(galleryCollection) {
+function pickRandomGallery(galleryCollection: any) {
     const randomIndex = Math.floor(Math.random() * galleryCollection.length);
     const randomGallery = galleryCollection[randomIndex];
     return [randomGallery, randomIndex];
 }
 
-exports.run = async (client, message, args, level) => {
+exports.run = async (client: DiscordClient, message: Discord.Message, args: any, level: any) => {
 
     if (usingRedsi) redisImageCollections.ping();
 
@@ -96,7 +95,7 @@ exports.run = async (client, message, args, level) => {
         return sendFoxImageToChat(randomGallery.src, message);
     }
 
-    const imageCollection = redisImageCollections.cache.cache.get(COLLECTION, async (err, collection) => {
+    redisImageCollections.get(COLLECTION, async (err, collection) => {
         if (err) return console.error(err);
 
         if (collection === null) {
@@ -111,7 +110,7 @@ exports.run = async (client, message, args, level) => {
 
         // Using the existing cached collection
 
-        redisImageCollections.cache.cache.get(COLLECTION, (err, galleryBlock) => {
+        redisImageCollections.get(COLLECTION, (err, galleryBlock: any) => {
             if (err) return console.error(err);
             galleryBlock = JSON.parse(galleryBlock);
             const [randomGallery, randomIndex] = pickRandomGallery(galleryBlock);
