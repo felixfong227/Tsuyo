@@ -6,6 +6,7 @@ const colors = require("colors");
 const ip = require("ip"); // We're only using this to get the IP of the dashboard, only bot developers can see the IP
 const cors = require('cors');
 const MongoStore = require('connect-mongo')(session);
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,8 +24,9 @@ store.on('error', err => {
 
 const initWeb = (client) => {
   app.set("view engine", "ejs");
+  app.set('views', path.join(__dirname, '/../../../src/views'));
   app.set('trust proxy', true);
-  app.use(express.static("static"));
+  app.use(express.static(path.join(__dirname, '/../../../src/static')));
   // app.use(
   //   cookieParser()
   // );
