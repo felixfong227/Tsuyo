@@ -1,18 +1,25 @@
 const router = require('express').Router();
-
-const { clientId, clientSecret, scopes, redirectUri } = require('../config.js');
+import BotConfig from '@bot_config';
 const fetch = require('node-fetch');
 const FormData = require('form-data');
+import express from 'express';
+import logger from '@modules/logger';
 
-router.get('/', (req, res) => {
-    if (req.session.user) return res.redirect('/');
+const { DISCORD_REDIRECT_URI, clientId, clientSecret } = process.env;
 
-    const authorizeUrl = `https://discordapp.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${scopes.join('%20')}`;
+router.get('/', (req: express.Request, res: express.Response) => {
+    if (req?.session?.user) return res.redirect('/');
+
+    if (typeof DISCORD_REDIRECT_URI !== 'string') {
+        throw new Error('Environment DISCORD_REDIRECT_URI is not set');
+    }
+
+    const authorizeUrl = `https://discordapp.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&response_type=code&scope=${BotConfig.scopes.join('%20')}`;
     res.redirect(authorizeUrl);
 });
 
-router.get('/callback', async (req, res) => {
-    if (req.session.user) return res.redirect('/');
+router.get('/callback', async (req: express.Request, res: express.Response) => {
+    if (req?.session?.user) return res.redirect('/');
 
     const accessCode = req.query.code;
 
@@ -29,8 +36,8 @@ router.get('/callback', async (req, res) => {
     data.append('client_id', clientId);
     data.append('client_secret', clientSecret);
     data.append('grant_type', 'authorization_code');
-    data.append('redirect_uri', redirectUri);
-    data.append('scope', scopes.join(' '));
+    data.append('redirect_uri', DISCORD_REDIRECT_URI);
+    data.append('scope', BotConfig.scopes.join(' '));
     data.append('code', accessCode);
 
     try {
@@ -89,8 +96,9 @@ router.get('/callback', async (req, res) => {
         userResponse.tag = `${userResponse.discriminator}`;
         userResponse.tagName = `${userResponse.username}#${userResponse.discriminator}`;
         userResponse.avatarURL = userResponse.avatar ? `https://cdn.discordapp.com/avatars/${userResponse.id}/${userResponse.avatar}.png?size=1024` : null;
+        // @ts-ignore
         req.session.user = userResponse;
-
+        // @ts-ignore
         req.session.guilds = guildResponse;
         res.set('credentials', 'include');
         res.redirect('/');
@@ -104,8 +112,10 @@ router.get('/callback', async (req, res) => {
 
 });
 
-router.get('/logout', (req, res) => {
-    req.session.destroy();
+router.get('/logout', (req: express.Request, res: express.Response) => {
+    req?.session?.destroy(err => {
+        logger.error(`Fail to destroy user session\n ${err}`)
+    });
     return res.redirect('/');
 });
 
