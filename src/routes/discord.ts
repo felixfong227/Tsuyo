@@ -24,11 +24,13 @@ router.get('/callback', async (req: express.Request, res: express.Response) => {
     const accessCode = req.query.code;
 
     if (req.query.error === 'access_denied') {
-        return res.end('You have cancelled your login via Discord.');
+        req.flash('user.auth', 'You have cancelled your login via Discord.');
+        return res.redirect('/');
     }
 
     if (!accessCode) {
-        res.end('Login failed, please try it again. (Missing Discord access code)');
+        req.flash('user.auth', 'Login failed, please try it again. (Missing Discord access code)')
+        res.redirect('/');
         throw new Error('No access code returned from Discord.');
     }
 
@@ -85,7 +87,8 @@ router.get('/callback', async (req: express.Request, res: express.Response) => {
 
         if (!guildResponse.ok) {
             console.log('Failed to fetch user guild info from Discord');
-            res.end('Failed to login, unable to fetch your guild info from Discord.');
+            req.flash('user.auth', 'Failed to login, unable to fetch your guild info from Discord.');
+            res.redirect('/');
             throw new Error(
                 await guildResponse.text()
             );
@@ -105,7 +108,8 @@ router.get('/callback', async (req: express.Request, res: express.Response) => {
 
     } catch (err) {
         console.log('Failed to login a user in with Discord credentials.');
-        res.end('Fail to login, something terrible has happened.')
+        req.flash('user.auth', 'Fail to login, something terrible has happened.');
+        res.redirect('/');
         throw new Error(err);
     }
 
