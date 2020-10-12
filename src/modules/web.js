@@ -7,6 +7,7 @@ const ip = require("ip"); // We're only using this to get the IP of the dashboar
 const cors = require('cors');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
+const flash = require('connect-flash');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,6 +28,7 @@ const initWeb = (client) => {
   app.set('views', path.join(__dirname, '/../../../src/views'));
   app.set('trust proxy', true);
   app.use(express.static(path.join(__dirname, '/../../../src/static')));
+  app.use(flash());
   // app.use(
   //   cookieParser()
   // );
