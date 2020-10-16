@@ -4,14 +4,14 @@
   "description": "A multipurpose bot to handle all your needs.",
   "main": "target/src/bot.js",
   "scripts": {
-    "start": "node -r ./prod-paths.js ./target/src/bot.js",
-    "debug": "node --inspect -r ./prod-paths.js ./target/src/bot.js",
+    "start": "node ./target/src/bot.js",
+    "debug": "node --inspect ./target/src/bot.js",
     "node": "node bot.js",
     "forever": "forever start bot.js",
     "pm2": "pm2 start bot.js",
     "pnpm": "pnpm server start",
     "yarn": "yarn run bot.js",
-    "nodemon": "nodemon -L -r ./prod-paths.js ./target/src/bot.js",
+    "nodemon": "nodemon -L ./target/src/bot.js",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
     "test": "jest",
@@ -20,8 +20,8 @@
     "build-ts-watch": "tsc -p . --watch",
     "build-ts": "tsc -p .",
     "clinic": "clinic",
-    "clinic_doctor": "clinic doctor -- node -r ./prod-paths.js ./target/src/bot.js",
-    "clinic_bubbleprof": "clinic bubbleprof -- node -r ./prod-paths.js ./target/src/bot.js"
+    "clinic_doctor": "clinic doctor -- node ./target/src/bot.js",
+    "clinic_bubbleprof": "clinic bubbleprof -- node ./target/src/bot.js"
   },
   "engines": {
     "node": "12.x"
