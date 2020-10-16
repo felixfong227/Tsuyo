@@ -1,6 +1,14 @@
 // Copyright 2020 Cytrus-RE Developers
 // You may use the code, but please do credit us.
-// import 'module-alias/register';
+
+const tsConfig = require("../../tsconfig.json");
+const tsConfigPaths = require("tsconfig-paths");
+
+const baseUrl = "./target";
+const cleanup = tsConfigPaths.register({
+	baseUrl,
+	paths: tsConfig.compilerOptions.paths
+});
 
 import DiscordClientClass from '@class/DiscordClient';
 import BotConfig from '@bot_config';
@@ -48,4 +56,4 @@ console.log("Logged into Discord API!");
 //client.user.setStatus("idle");
 //client.user.setActivity("Loading...");
 
-module.exports = client;
+export default client;
