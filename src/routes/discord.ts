@@ -77,7 +77,8 @@ router.get('/callback', async (req: express.Request, res: express.Response) => {
 
         if (!userResponse.ok) {
             console.log('Failed to fetch user info from Discord server.');
-            res.end('Failed to login, unable to fetch your basic user info from Discord.');
+            req.flash('Failed to login, unable to fetch your basic user info from Discord.')
+            res.redirect('/');
             throw new Error(
                 await userResponse.text()
             );
@@ -102,7 +103,7 @@ router.get('/callback', async (req: express.Request, res: express.Response) => {
         // @ts-ignore
         req.session.user = userResponse;
         // @ts-ignore
-        req.session.guilds = guildResponse;
+        req.session.guilds = await guildResponse.json();
         res.set('credentials', 'include');
         res.redirect('/');
 
